@@ -1,0 +1,8 @@
+# ~/.ssh/config — host shortcuts. Symlinked from dotfiles.
+# Real keys (id_*) and known_hosts stay in ~/.ssh, untracked.
+
+# Self-hosted Gitea — SSH listener is on 2222, not 22.
+Host git.nxssie.dev
+    User git
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519

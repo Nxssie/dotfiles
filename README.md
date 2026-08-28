@@ -16,6 +16,7 @@ into hyprlock + ghostty + KDE color schemes), fish, ghostty, mise.
 │   ├── fish/             # shell config (secrets.fish gitignored)
 │   ├── ghostty/          # terminal + custom CreamyForest light theme
 │   ├── zed/              # editor settings
+│   ├── ssh/config        # ~/.ssh/config — git.nxssie.dev on port 2222
 │   ├── kdeglobals        # KDE color scheme selection (Tokyo Night)
 │   └── color-schemes/    # Tokyo Night dark/light → ~/.local/share/color-schemes
 ├── assets/wallpapers/    # dark.png / light.png → ~/Pictures/Wallpapers
@@ -61,10 +62,13 @@ pacman -Qqm | grep -v paru-debug > packages/aur.txt
   `/usr/share/sddm/themes/pixie` (see manual steps in `install.sh`).
 - **Secrets** — only `conf.d/secrets.fish.example` is committed; the real
   `secrets.fish` is gitignored.
+- SSH keys (`~/.ssh/id_*`, `known_hosts`) stay untracked; only the host
+  config is managed.
 - Machine state (`~/.config/session`, `trashrc`, dolphin/mime caches, app
   data like helium/Bitwarden).
 
 ## Mirrors
 
 - GitHub (origin): `git@github.com:Nxssie/dotfiles.git`
-- Gitea (mirror): `gitea` remote — push with `git push --mirror gitea`.
+- Gitea (self-hosted): `gitea` remote — `ssh://git@git.nxssie.dev/nxssie/dotfiles.git`
+  (SSH on port 2222 via `~/.ssh/config`). Sync with `git push gitea main`.

@@ -60,6 +60,15 @@ link "$REPO/config/kdeglobals"  "$HOME/.config/kdeglobals"
 link "$REPO/config/color-schemes"    "$HOME/.local/share/color-schemes"
 link "$REPO/assets/wallpapers"       "$HOME/Pictures/Wallpapers"
 
+# --- ssh config --------------------------------------------------------------
+mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+if [ -L "$HOME/.ssh/config" ] || [ ! -e "$HOME/.ssh/config" ]; then
+    link "$REPO/config/ssh/config" "$HOME/.ssh/config"
+else
+    warn "~/.ssh/config exists and is not a symlink — merge git.nxssie.dev (port 2222) manually"
+fi
+chmod 600 "$HOME/.ssh/config"
+
 # --- fish secrets ------------------------------------------------------------
 if [ ! -e "$HOME/.config/fish/conf.d/secrets.fish" ]; then
     cp "$REPO/config/fish/conf.d/secrets.fish.example" \
