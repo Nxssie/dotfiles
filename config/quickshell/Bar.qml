@@ -206,16 +206,18 @@ PanelWindow {
         }
     }
 
-    // ---------------- Right side: audio + bluetooth + network + claude + battery ----------------
+    // ---------------- Right side: claude + bluetooth + network + audio + battery ----------------
+    // Tray convention: app-specific chips furthest from the corner, connectivity
+    // grouped together, and system vitals (audio, battery) nearest the edge.
     RowLayout {
         anchors.right: parent.right
-        anchors.rightMargin: 8
+        anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 8
+        spacing: 12
 
-        AudioChip {
-            id: audioChip
-            onActivated: bar.togglePopup("audio")
+        ClaudeChip {
+            id: claudeChip
+            onActivated: bar.togglePopup("claude")
         }
 
         BluetoothChip {
@@ -228,9 +230,9 @@ PanelWindow {
             onActivated: bar.togglePopup("network")
         }
 
-        ClaudeChip {
-            id: claudeChip
-            onActivated: bar.togglePopup("claude")
+        AudioChip {
+            id: audioChip
+            onActivated: bar.togglePopup("audio")
         }
 
         BatteryChip {
