@@ -170,29 +170,39 @@ PanelWindow {
             }
         }
 
-        MediaChip {
-            id: mediaChip
-            anchors.right: caffeineChip.left
-            anchors.rightMargin: 14
-            anchors.verticalCenter: parent.verticalCenter
-            onActivated: bar.togglePopup("media")
-        }
-
-        CaffeineChip {
-            id: caffeineChip
+        // Chips left of the clock live in a layout instead of an anchor chain:
+        // a hidden chip collapses and the visible ones pack toward the clock,
+        // so no ghost gap is left when e.g. caffeine is inactive.
+        RowLayout {
             anchors.right: clockText.left
             anchors.rightMargin: 14
             anchors.verticalCenter: parent.verticalCenter
-            active: bar.caffeineActive
-            hovered: centerHover.hovered
-            onToggled: bar.caffeineActive = !bar.caffeineActive
+            spacing: 14
+
+            CaffeineChip {
+                id: caffeineChip
+                active: bar.caffeineActive
+                hovered: centerHover.hovered
+                onToggled: bar.caffeineActive = !bar.caffeineActive
+            }
+
+            MediaChip {
+                id: mediaChip
+                onActivated: bar.togglePopup("media")
+            }
         }
 
-        ThemeToggle {
+        // Mirror of the left-side layout: chips right of the clock pack toward
+        // it and collapse when hidden, so new center widgets slot in here.
+        RowLayout {
             anchors.left: clockText.right
             anchors.leftMargin: 14
             anchors.verticalCenter: parent.verticalCenter
-            hovered: centerHover.hovered
+            spacing: 14
+
+            ThemeToggle {
+                hovered: centerHover.hovered
+            }
         }
     }
 
