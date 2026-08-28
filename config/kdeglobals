@@ -1,0 +1,7 @@
+[General]
+ColorScheme=TokyoNightLight
+Name=Tokyo Night Light
+
+[KDE]
+SingleClick=false
+widgetStyle=Breeze

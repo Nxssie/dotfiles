@@ -1,0 +1,9 @@
+# Real secrets — never commit (see conf.d/secrets.fish.example)
+config/fish/conf.d/secrets.fish
+
+# Quickshell runtime state (written on every theme toggle)
+config/quickshell/theme_state.json
+
+# Editor/OS noise
+*.swp
+.DS_Store
