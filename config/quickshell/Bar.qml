@@ -39,6 +39,14 @@ PanelWindow {
         claudeUsagePopup.visible = activePopup === "claude"
         bluetoothPopup.visible = activePopup === "bluetooth"
         mediaPopup.visible = activePopup === "media"
+
+        // Right-side popups drop from the chip that opened them, not a fixed
+        // corner — recompute against the actual chip each time one opens.
+        if (audioPopup.visible) audioPopup.anchorRect = bar.itemRect(audioChip)
+        if (batteryPopup.visible) batteryPopup.anchorRect = bar.itemRect(batteryChip)
+        if (networkPopup.visible) networkPopup.anchorRect = bar.itemRect(networkChip)
+        if (claudeUsagePopup.visible) claudeUsagePopup.anchorRect = bar.itemRect(claudeChip)
+        if (bluetoothPopup.visible) bluetoothPopup.anchorRect = bar.itemRect(bluetoothChip)
     }
 
     ClockPopup {
@@ -196,22 +204,27 @@ PanelWindow {
         spacing: 8
 
         AudioChip {
+            id: audioChip
             onActivated: bar.togglePopup("audio")
         }
 
         BluetoothChip {
+            id: bluetoothChip
             onActivated: bar.togglePopup("bluetooth")
         }
 
         NetworkChip {
+            id: networkChip
             onActivated: bar.togglePopup("network")
         }
 
         ClaudeChip {
+            id: claudeChip
             onActivated: bar.togglePopup("claude")
         }
 
         BatteryChip {
+            id: batteryChip
             onActivated: bar.togglePopup("battery")
         }
     }

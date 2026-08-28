@@ -5,11 +5,16 @@ import Quickshell
 PopupWindow {
     id: root
     property var anchorWindow
+    // rect (in anchorWindow coordinates) of the chip that opened this popup —
+    // set by Bar.togglePopup() via anchorWindow.itemRect(chip). Without this,
+    // every right-side popup fell back to the same hardcoded top-right corner
+    // and they all stacked on top of each other regardless of which chip was clicked.
+    property rect anchorRect: Qt.rect(0, 0, 0, 0)
 
     signal dismissed()
 
     anchor.window: anchorWindow
-    anchor.rect.x: anchorWindow ? anchorWindow.width - width - 10 : 0
+    anchor.rect.x: anchorRect.x + anchorRect.width - width
     anchor.rect.y: anchorWindow ? anchorWindow.height : 0
     implicitWidth: 300
     implicitHeight: content.implicitHeight + 24

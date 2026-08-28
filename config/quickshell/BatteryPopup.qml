@@ -6,11 +6,13 @@ import Quickshell.Services.UPower
 PopupWindow {
     id: root
     property var anchorWindow
+    // rect (in anchorWindow coords) of the chip that opened this popup — see AudioPopup.
+    property rect anchorRect: Qt.rect(0, 0, 0, 0)
 
     signal dismissed()
 
     anchor.window: anchorWindow
-    anchor.rect.x: anchorWindow ? anchorWindow.width - width - 10 : 0
+    anchor.rect.x: anchorRect.x + anchorRect.width - width
     anchor.rect.y: anchorWindow ? anchorWindow.height : 0
     implicitWidth: 240
     implicitHeight: content.implicitHeight + 24
