@@ -14,7 +14,8 @@ PopupWindow {
     signal dismissed()
 
     anchor.window: anchorWindow
-    anchor.rect.x: anchorRect.x + anchorRect.width - width
+    // centered under the chip, clamped so it never overhangs the bar's edges
+    anchor.rect.x: anchorWindow ? Math.max(8, Math.min(anchorRect.x + anchorRect.width / 2 - width / 2, anchorWindow.width - width - 8)) : 0
     anchor.rect.y: anchorWindow ? anchorWindow.height : 0
     implicitWidth: 300
     implicitHeight: content.implicitHeight + 24
