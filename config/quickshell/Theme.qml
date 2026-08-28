@@ -15,7 +15,10 @@ Singleton {
     readonly property string wallpaperDark:  Quickshell.env("HOME") + "/Pictures/Wallpapers/dark.png"
     readonly property string wallpaperLight: Quickshell.env("HOME") + "/Pictures/Wallpapers/light.png"
 
-    onDarkChanged: applySystemTheme()
+    onDarkChanged: {
+        applySystemTheme()
+        stateFile.writeAdapter()
+    }
     Component.onCompleted: applySystemTheme()
 
     function applySystemTheme() {
@@ -56,6 +59,7 @@ Singleton {
     }
 
     FileView {
+        id: stateFile
         path: Quickshell.env("HOME") + "/.config/quickshell/theme_state.json"
         watchChanges: true
         onFileChanged: reload()

@@ -36,8 +36,8 @@ else
     check="rgba(47, 82, 51, 1.0)"
     fail="rgba(161, 58, 58, 1.0)"
     dim="##7c8567"
-    hour="rgba(69, 230, 87, 1.0)"
-    minute="rgba(119, 217, 130, 1.0)"
+    hour="rgba(47, 82, 51, 1.0)"
+    minute="rgba(85, 105, 47, 1.0)"
     date="rgba(61, 74, 53, 1.0)"
 fi
 
