@@ -206,6 +206,7 @@ hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "
 hl.config({
     dwindle = {
         preserve_split = true, -- You probably want this
+        force_split    = 2,    -- Always split to the right/bottom instead of following the cursor position
     },
 })
 
@@ -286,11 +287,32 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("qs ipc call powermenu toggle"), { de
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || ~/.config/hypr/lock.sh"), { desc = "Bloquear pantalla" })
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager), { desc = "Abrir gestor de archivos" })
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { desc = "Alternar ventana flotante" })
+
+-- Restore tiling for every floating window on the current workspace in one shot
+-- (undoes stray floats / corner-snaps without having to alt-tab + SUPER+V one by one)
+local function retileWorkspace()
+    local ws = hl.get_active_workspace()
+    if not ws then return end
+
+    for _, w in ipairs(ws:get_windows()) do
+        if w.floating then
+            hl.dispatch(hl.dsp.window.float({ action = "disable", window = w }))
+        end
+    end
+end
+
+hl.bind(mainMod .. " + SHIFT + V", retileWorkspace, { desc = "Volver a modo tiling (destila todas las ventanas del workspace)" })
+hl.bind(mainMod .. " + T", hl.dsp.window.pin({ action = "toggle" }), { desc = "Fijar ventana flotante siempre visible (pin)" })
+
+-- Z-order for overlapping floating windows: which one draws on top of which
+hl.bind(mainMod .. " + Home", hl.dsp.window.bring_to_top(),                     { desc = "Traer ventana al frente (por encima de las demás)" })
+hl.bind(mainMod .. " + End",  hl.dsp.window.alter_zorder({ mode = "bottom" }),  { desc = "Enviar ventana al fondo (por debajo de las demás)" })
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu), { desc = "Abrir menú" })
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("qs ipc call launcher toggle"), { desc = "Abrir launcher de apps" })
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("qs ipc call bindings toggle"), { desc = "Mostrar esta ayuda de atajos" })
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { desc = "Alternar modo pseudo-tiling" })
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), { desc = "Maximizar ventana (ocupa todo el espacio, no es fullscreen real)" })
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), { desc = "Maximizar ventana (ocupa todo el espacio, no es fullscreen real; ver SUPER+SHIFT+F)" })
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }), { desc = "Pantalla completa real (oculta barras/gaps)" })
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { desc = "Alternar split del layout (solo dwindle)" })
 
 -- Move focus with mainMod + arrow keys
@@ -298,6 +320,35 @@ hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }),  { desc = "
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { desc = "Enfocar ventana a la derecha" })
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }),    { desc = "Enfocar ventana arriba" })
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }),  { desc = "Enfocar ventana abajo" })
+
+-- Cycle through every window regardless of layout position (classic alt-tab).
+-- Useful when there's no neighbor in the direction you'd otherwise focus()
+-- cycle_next alone doesn't raise floating windows, so the focused one could stay
+-- buried under other floats; bring it to the top after each cycle
+local function cycleAndRaise(forward)
+    return function()
+        hl.dispatch(hl.dsp.window.cycle_next({ next = forward }))
+        hl.dispatch(hl.dsp.window.bring_to_top())
+    end
+end
+
+hl.bind(mainMod .. " + Tab",         cycleAndRaise(true),  { desc = "Ciclar a la siguiente ventana (alt-tab)" })
+hl.bind(mainMod .. " + SHIFT + Tab", cycleAndRaise(false), { desc = "Ciclar a la ventana anterior (alt-tab)" })
+
+-- Reorder the tiling layout from the keyboard: relocates the active window in that
+-- direction (re-splitting the tree like a mouse drag would, finding it an available
+-- slot), and if the target holds a group it merges into it instead of a plain swap
+-- (mainMod+SHIFT+arrows is already resize, see below)
+hl.bind(mainMod .. " + ALT + left",  hl.dsp.window.move({ direction = "left",  group_aware = true }), { desc = "Mover/reordenar ventana hacia la izquierda (respeta grupos)" })
+hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ direction = "right", group_aware = true }), { desc = "Mover/reordenar ventana hacia la derecha (respeta grupos)" })
+hl.bind(mainMod .. " + ALT + up",    hl.dsp.window.move({ direction = "up",    group_aware = true }), { desc = "Mover/reordenar ventana hacia arriba (respeta grupos)" })
+hl.bind(mainMod .. " + ALT + down",  hl.dsp.window.move({ direction = "down",  group_aware = true }), { desc = "Mover/reordenar ventana hacia abajo (respeta grupos)" })
+
+-- Window groups: stack windows into one tabbed slot, cycle tabs from the keyboard.
+-- A fully keyboard-driven alternative to hunting for the right tiling geometry.
+hl.bind(mainMod .. " + G",      hl.dsp.group.toggle(), { desc = "Agrupar ventana en pestañas (o desagrupar)" })
+hl.bind(mainMod .. " + comma",  hl.dsp.group.prev(),   { desc = "Pestaña anterior del grupo" })
+hl.bind(mainMod .. " + period", hl.dsp.group.next(),   { desc = "Pestaña siguiente del grupo" })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -314,6 +365,16 @@ hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:mag
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { desc = "Siguiente workspace (scroll)" })
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { desc = "Workspace anterior (scroll)" })
+
+-- Same, from the keyboard: cycle through existing workspaces without knowing their number
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }), { desc = "Siguiente workspace" })
+hl.bind(mainMod .. " + CTRL + left",  hl.dsp.focus({ workspace = "e-1" }), { desc = "Workspace anterior" })
+hl.bind(mainMod .. " + CTRL + SHIFT + right", hl.dsp.window.move({ workspace = "e+1" }), { desc = "Mover ventana al siguiente workspace" })
+hl.bind(mainMod .. " + CTRL + SHIFT + left",  hl.dsp.window.move({ workspace = "e-1" }), { desc = "Mover ventana al workspace anterior" })
+
+-- Declutter: jump to / send a window to the first empty workspace instead of hunting for a free number
+hl.bind(mainMod .. " + N",         hl.dsp.focus({ workspace = "empty" }),       { desc = "Ir al primer workspace vacío" })
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.window.move({ workspace = "empty" }), { desc = "Mover ventana al primer workspace vacío (hacerle hueco)" })
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, desc = "Mover ventana arrastrando" })
@@ -337,6 +398,15 @@ local function gapFor(side)
     return gaps or 0
 end
 
+-- Space reserved by layer-shell surfaces (bars/docks with an exclusive zone), per side
+local function reservedFor(mon, side)
+    local r = mon.reserved
+    if type(r) == "table" then
+        return r[side] or 0
+    end
+    return r or 0
+end
+
 local function snapToCorner(hAlign, vAlign)
     return function()
         local w = hl.get_active_window()
@@ -356,9 +426,13 @@ local function snapToCorner(hAlign, vAlign)
 
         hl.dispatch(hl.dsp.window.resize({ x = width, y = height, relative = false }))
 
-        -- Same gaps_out used by tiled windows, so the snapped window keeps a matching margin
-        local x = (hAlign == "left") and (mon.x + gapFor("left")) or (mon.x + monW - width - gapFor("right"))
-        local y = (vAlign == "top")  and (mon.y + gapFor("top"))  or (mon.y + monH - height - gapFor("bottom"))
+        -- Same gaps_out used by tiled windows, plus any exclusive zone (bars/docks), on each side
+        local x = (hAlign == "left")
+            and (mon.x + gapFor("left") + reservedFor(mon, "left"))
+            or  (mon.x + monW - width - gapFor("right") - reservedFor(mon, "right"))
+        local y = (vAlign == "top")
+            and (mon.y + gapFor("top") + reservedFor(mon, "top"))
+            or  (mon.y + monH - height - gapFor("bottom") - reservedFor(mon, "bottom"))
 
         hl.dispatch(hl.dsp.window.move({ x = x, y = y, relative = false }))
     end
@@ -368,6 +442,7 @@ hl.bind(mainMod .. " + CTRL + 1", snapToCorner("left",  "bottom"), { desc = "Anc
 hl.bind(mainMod .. " + CTRL + 2", snapToCorner("right", "bottom"), { desc = "Anclar ventana pequeña: esquina inferior derecha" })
 hl.bind(mainMod .. " + CTRL + 3", snapToCorner("left",  "top"),    { desc = "Anclar ventana pequeña: esquina superior izquierda" })
 hl.bind(mainMod .. " + CTRL + 4", snapToCorner("right", "top"),    { desc = "Anclar ventana pequeña: esquina superior derecha" })
+hl.bind(mainMod .. " + CTRL + 5", hl.dsp.window.center(), { desc = "Centrar ventana flotante" })
 
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, desc = "Subir volumen" })
