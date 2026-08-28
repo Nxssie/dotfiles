@@ -117,6 +117,23 @@ Singleton {
             return a.name.localeCompare(b.name)
         })
         root.devices = list
+        root._autoConnect()
+    }
+
+    // BlueZ never initiates connections from the host side — trusted devices
+    // only reconnect when THEY reach out (e.g. earbuds taken out of the case).
+    // If a device was already on before this shell started (boot, or it was
+    // paired to another host), nobody connects. Cover that with one
+    // fire-and-forget Connect attempt per trusted device on startup;
+    // devices that are off just time out silently on the bluez side.
+    property bool _autoConnectDone: false
+    function _autoConnect() {
+        if (root._autoConnectDone || !root.adapterPowered) return
+        root._autoConnectDone = true
+        for (const dev of root.devices) {
+            if (dev.trusted && dev.paired && !dev.connected)
+                Quickshell.execDetached(["busctl", "--system", "call", root.busName, dev.path, "org.bluez.Device1", "Connect"])
+        }
     }
 
     readonly property int connectedCount: devices.filter(d => d.connected).length
