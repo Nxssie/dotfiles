@@ -329,6 +329,14 @@ hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.resize({ x = 0, y = resizeS
 -- Snap the active window to a screen corner as a small floating window
 -- (dwindle's pseudotile just centers a shrunk window inside its slot, no corner anchor exists there,
 -- so this forces floating + an explicit size/position instead)
+local function gapFor(side)
+    local gaps = hl.get_config("general.gaps_out")
+    if type(gaps) == "table" then
+        return gaps[side] or 0
+    end
+    return gaps or 0
+end
+
 local function snapToCorner(hAlign, vAlign)
     return function()
         local w = hl.get_active_window()
@@ -341,12 +349,16 @@ local function snapToCorner(hAlign, vAlign)
         local mon = hl.get_active_monitor()
         if not mon then return end
 
-        local width, height, margin = 480, 320, 20
+        local width, height = 480, 320
+
+        -- mon.width/height are physical pixels; move/resize work in logical (scaled) pixels
+        local monW, monH = mon.width / mon.scale, mon.height / mon.scale
 
         hl.dispatch(hl.dsp.window.resize({ x = width, y = height, relative = false }))
 
-        local x = (hAlign == "left") and (mon.x + margin) or (mon.x + mon.width - width - margin)
-        local y = (vAlign == "top")  and (mon.y + margin) or (mon.y + mon.height - height - margin)
+        -- Same gaps_out used by tiled windows, so the snapped window keeps a matching margin
+        local x = (hAlign == "left") and (mon.x + gapFor("left")) or (mon.x + monW - width - gapFor("right"))
+        local y = (vAlign == "top")  and (mon.y + gapFor("top"))  or (mon.y + monH - height - gapFor("bottom"))
 
         hl.dispatch(hl.dsp.window.move({ x = x, y = y, relative = false }))
     end
