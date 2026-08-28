@@ -80,6 +80,11 @@ fi
 if command -v systemctl >/dev/null 2>&1; then
     systemctl --user enable --now ssh-agent.socket 2>/dev/null \
         || warn "ssh-agent.socket not available (install openssh first)"
+    sudo systemctl enable --now bluetooth.service 2>/dev/null \
+        || warn "bluetooth.service not available (install bluez first)"
+    # PulseAudio-API apps (Chromium & co.) need pipewire-pulse running
+    systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null \
+        || warn "pipewire user units not available (install pipewire-pulse first)"
 fi
 
 chmod +x "$REPO/config/hypr/lock.sh"

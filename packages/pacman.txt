@@ -2,6 +2,8 @@ awww
 base
 base-devel
 bitwarden
+bluez
+bluez-utils
 breeze
 dolphin
 efibootmgr
@@ -26,6 +28,9 @@ noto-fonts
 noto-fonts-emoji
 openssh
 pfetch-rs
+pipewire
+pipewire-audio
+pipewire-pulse
 plasma-integration
 quickshell
 sddm
@@ -37,5 +42,6 @@ ttf-dejavu
 ttf-liberation
 ttf-nerd-fonts-symbols
 upower
+wireplumber
 xdg-user-dirs
 zed
