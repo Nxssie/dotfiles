@@ -40,8 +40,11 @@ Singleton {
         refreshTimer.restart()
     }
 
+    // Never restart an in-flight query: killing it mid-read hands the
+    // collector truncated JSON, which wipes adapter state for one cycle
+    // and makes the chip/popup flicker.
     function refresh() {
-        managedProc.running = false
+        if (managedProc.running) return
         managedProc.running = true
     }
 
