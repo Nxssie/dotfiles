@@ -1,0 +1,20 @@
+[Unit]
+Description=Quickshell (bar, power menu, launcher, clipboard, bindings help)
+PartOf=graphical-session.target
+After=graphical-session.target awww-daemon.service
+Wants=awww-daemon.service
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+[Service]
+ExecStart=/usr/bin/qs -n
+Restart=always
+RestartSec=1
+# hyprshutdown (launched by qs's power menu) forks/daemonizes to outlive
+# Hyprland and run its --post-cmd (systemctl reboot/poweroff) afterwards.
+# KillMode=control-group (the default) would kill that forked survivor
+# along with qs when this unit stops, silently swallowing shutdown/reboot.
+KillMode=process
+
+[Install]
+WantedBy=graphical-session.target

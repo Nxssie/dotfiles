@@ -57,9 +57,14 @@ local menu        = "hyprlauncher"
 -- end)
 
 hl.on("hyprland.start", function ()
-  hl.exec_cmd("awww-daemon")
-  hl.exec_cmd("qs -n")
-  hl.exec_cmd("hypridle")
+  -- make WAYLAND_DISPLAY/HYPRLAND_INSTANCE_SIGNATURE visible to systemd --user,
+  -- then let it own awww-daemon/qs/hypridle (see config/systemd/user/*.service)
+  -- so they get auto-restarted if they crash instead of staying dead.
+  hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE")
+  hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE")
+  -- graphical-session.target on this system refuses manual start (only PAM/login
+  -- manager may start it), so start the units directly instead of via the target
+  hl.exec_cmd("systemctl --user start quickshell.service awww-daemon.service hypridle.service")
 end)
 
 

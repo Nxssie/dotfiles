@@ -86,6 +86,15 @@ if command -v systemctl >/dev/null 2>&1; then
     # PulseAudio-API apps (Chromium & co.) need pipewire-pulse running
     systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null \
         || warn "pipewire user units not available (install pipewire-pulse first)"
+    # Hyprland session daemons (supervised so they auto-restart on crash instead
+    # of dying silently — see config/hypr/hyprland.lua's hyprland.start hook,
+    # which imports the Wayland env into systemd --user and starts the target)
+    ln -sf "$REPO/config/systemd/user/quickshell.service" "$HOME/.config/systemd/user/quickshell.service"
+    ln -sf "$REPO/config/systemd/user/awww-daemon.service" "$HOME/.config/systemd/user/awww-daemon.service"
+    ln -sf "$REPO/config/systemd/user/hypridle.service" "$HOME/.config/systemd/user/hypridle.service"
+    systemctl --user daemon-reload
+    systemctl --user enable quickshell.service awww-daemon.service hypridle.service 2>/dev/null \
+        || warn "could not enable Hyprland session units (qs/awww-daemon/hypridle)"
 fi
 
 chmod +x "$REPO/config/hypr/lock.sh"
