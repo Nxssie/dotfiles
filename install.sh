@@ -89,12 +89,13 @@ if command -v systemctl >/dev/null 2>&1; then
     # Hyprland session daemons (supervised so they auto-restart on crash instead
     # of dying silently — see config/hypr/hyprland.lua's hyprland.start hook,
     # which imports the Wayland env into systemd --user and starts the target)
-    ln -sf "$REPO/config/systemd/user/quickshell.service" "$HOME/.config/systemd/user/quickshell.service"
-    ln -sf "$REPO/config/systemd/user/awww-daemon.service" "$HOME/.config/systemd/user/awww-daemon.service"
-    ln -sf "$REPO/config/systemd/user/hypridle.service" "$HOME/.config/systemd/user/hypridle.service"
+    session_units=(quickshell awww-daemon hypridle cliphist-text cliphist-image)
+    for unit in "${session_units[@]}"; do
+        ln -sf "$REPO/config/systemd/user/$unit.service" "$HOME/.config/systemd/user/$unit.service"
+    done
     systemctl --user daemon-reload
-    systemctl --user enable quickshell.service awww-daemon.service hypridle.service 2>/dev/null \
-        || warn "could not enable Hyprland session units (qs/awww-daemon/hypridle)"
+    systemctl --user enable "${session_units[@]/%/.service}" 2>/dev/null \
+        || warn "could not enable Hyprland session units (${session_units[*]})"
 fi
 
 chmod +x "$REPO/config/hypr/lock.sh"
