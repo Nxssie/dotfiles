@@ -50,8 +50,10 @@ PanelWindow {
         { glyph: "", label: "Lock",          cmd: "pidof hyprlock || hyprlock",                              danger: false },
         { glyph: "", label: "Log out",       cmd: "hyprshutdown",                                            danger: false },
         { glyph: "", label: "Suspend",       cmd: "systemctl suspend",                                       danger: false },
-        { glyph: "", label: "Restart",       cmd: "hyprshutdown --post-cmd \"systemctl reboot\"",            danger: true },
-        { glyph: "", label: "Shut down",     cmd: "hyprshutdown --post-cmd \"systemctl poweroff\"",          danger: true }
+        // systemctl directly: hyprshutdown's --post-cmd dies with quickshell's
+        // cgroup when the session ends, so the poweroff/reboot never ran.
+        { glyph: "", label: "Restart",       cmd: "systemctl reboot",                                        danger: true },
+        { glyph: "", label: "Shut down",     cmd: "systemctl poweroff",                                      danger: true }
     ]
 
     Process {
