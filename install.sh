@@ -111,8 +111,10 @@ Done. Remaining one-time/manual steps on a fresh install:
   2. SDDM theme:    git clone https://github.com/xCaptaiN09/pixie-sddm.git
                     sudo cp -r pixie-sddm /usr/share/sddm/themes/pixie
                     sudo cp system/sddm/theme.conf /etc/sddm.conf.d/theme.conf
-  3. mise runtimes: git clone git@github.com:Nxssie/harnxss.git (config.toml
+  3. Battery cap:   sudo cp system/udev/90-battery-threshold.rules /etc/udev/rules.d/
+                    sudo udevadm control --reload && sudo udevadm trigger -s power_supply
+  4. mise runtimes: git clone git@github.com:Nxssie/harnxss.git (config.toml
                     is symlinked from there), then: mise install
-  4. Secrets:       edit ~/.config/fish/conf.d/secrets.fish, then: exec fish
+  5. Secrets:       edit ~/.config/fish/conf.d/secrets.fish, then: exec fish
 
 EOF

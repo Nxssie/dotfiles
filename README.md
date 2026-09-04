@@ -21,7 +21,9 @@ into hyprlock + ghostty + KDE color schemes), fish, ghostty, mise.
 │   └── color-schemes/    # Tokyo Night dark/light → ~/.local/share/color-schemes
 ├── assets/wallpapers/    # dark.png / light.png → ~/Pictures/Wallpapers
 ├── packages/             # pacman.txt (explicit native), aur.txt (foreign)
-└── system/sddm/          # /etc/sddm.conf.d/theme.conf (pixie theme)
+└── system/
+    ├── sddm/             # /etc/sddm.conf.d/theme.conf (pixie theme)
+    └── udev/             # /etc/udev/rules.d — battery charge cap at 80%
 ```
 
 ## Fresh install
