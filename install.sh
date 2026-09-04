@@ -55,6 +55,7 @@ link "$REPO/config/fish"        "$HOME/.config/fish"
 link "$REPO/config/ghostty"     "$HOME/.config/ghostty"
 link "$REPO/config/zed"         "$HOME/.config/zed"
 link "$REPO/config/kdeglobals"  "$HOME/.config/kdeglobals"
+link "$REPO/config/starship"    "$HOME/.config/starship"
 
 # --- Theming assets ----------------------------------------------------------
 link "$REPO/config/color-schemes"    "$HOME/.local/share/color-schemes"

@@ -1,0 +1,75 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Matches config/quickshell/Theme.qml — dark (Tokyo Night)
+
+format = """
+[](bg:#1a1b26)\
+$directory\
+[](fg:#1a1b26 bg:#292e42)\
+$git_branch\
+$git_status\
+[](fg:#292e42 bg:#13141c)\
+$nodejs\
+$bun\
+$rust\
+$python\
+$java\
+[](fg:#13141c)\
+$time\
+$character"""
+
+[directory]
+style = "fg:#c0caf5 bg:#1a1b26"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "fg:#bb9af7 bg:#292e42"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "fg:#f7768e bg:#292e42"
+format = '[$all_status$ahead_behind ]($style)'
+
+[nodejs]
+symbol = ""
+style = "fg:#e0af68 bg:#13141c"
+format = '[ $symbol ($version) ]($style)'
+
+[bun]
+symbol = ""
+style = "fg:#e0af68 bg:#13141c"
+format = '[ $symbol ($version) ]($style)'
+
+[rust]
+symbol = ""
+style = "fg:#e0af68 bg:#13141c"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+symbol = ""
+style = "fg:#e0af68 bg:#13141c"
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = ""
+style = "fg:#e0af68 bg:#13141c"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:#565f89"
+format = '[ $time ]($style)'
+
+[character]
+success_symbol = '[❯](bold #7aa2f7)'
+error_symbol = '[❯](bold #f7768e)'
