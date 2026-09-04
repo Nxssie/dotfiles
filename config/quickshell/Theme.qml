@@ -41,10 +41,31 @@ Singleton {
             " && kwriteconfig6 --file kdeglobals --group General --key Name '" + kdeName + "'" +
             " && dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0"]
         qtThemeRunner.running = true
+
+        // Keeps Hyprland's window borders on the same palette as the bar. The
+        // Lua config only carries the dark defaults (it can't read this file),
+        // so the live values are pushed here on every toggle (`hyprctl keyword`
+        // is legacy-parser only; Lua configs need `eval`). Derive from `dark`
+        // rather than the active tokens: this handler can run before those
+        // bindings re-evaluate, which left the borders one toggle behind.
+        var hex = function (c) { return String(c).slice(1, 7) }
+        var a1 = dark ? darkAccent : lightAccent
+        var a2 = dark ? darkAccentSecondary : lightAccentSecondary
+        var dim = dark ? darkFgDim : lightFgDim
+        hyprRunner.command = ["hyprctl", "eval",
+            'hl.config({ general = { col = { ' +
+            'active_border = { colors = {"rgba(' + hex(a1) + 'ee)", "rgba(' + hex(a2) + 'ee)"}, angle = 45 }, ' +
+            'inactive_border = "rgba(' + hex(dim) + 'aa)" } } })']
+        hyprRunner.running = true
     }
 
     Process {
         id: wallpaperRunner
+        command: ["true"]
+    }
+
+    Process {
+        id: hyprRunner
         command: ["true"]
     }
 

@@ -106,9 +106,10 @@ hl.config({
 
         border_size = 2,
 
+        -- Tokyo Night: Theme.qml darkAccent -> darkAccentSecondary, darkFgDim
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            active_border   = { colors = {"rgba(7aa2f7ee)", "rgba(bb9af7ee)"}, angle = 45 },
+            inactive_border = "rgba(565f89aa)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
