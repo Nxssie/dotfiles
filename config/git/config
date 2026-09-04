@@ -1,0 +1,5 @@
+# Global git config (XDG location, read alongside ~/.gitconfig).
+# Identity stays in the unversioned ~/.gitconfig since it differs per machine.
+
+[fetch]
+	prune = true
