@@ -221,8 +221,10 @@ hl.config({
 
 hl.config({
     misc = {
-        force_default_wallpaper = -1,    -- Set to 0 or 1 to disable the anime mascot wallpapers
-        disable_hyprland_logo   = false, -- If true disables the random hyprland logo / anime girl background. :(
+        -- awww owns the wallpaper (see Theme.qml); never fall back to the
+        -- built-in anime/logo backgrounds if it is late or dead
+        force_default_wallpaper = 0,
+        disable_hyprland_logo   = true,
     },
 })
 
@@ -262,7 +264,7 @@ hl.gesture({
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
--- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
+-- See https://wiki.hypr.land/Configuring/Basics/Binds/
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { desc = "Abrir terminal" })
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser), { desc = "Abrir navegador" })
 local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close(), { desc = "Cerrar ventana" })
@@ -342,7 +344,7 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
 
--- Example special workspace (scratchpad)
+-- Special workspace (scratchpad)
 hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"),         { desc = "Mostrar/ocultar el scratchpad" })
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { desc = "Mover ventana al scratchpad" })
 
@@ -455,7 +457,6 @@ hl.bind("SHIFT + Print", hl.dsp.exec_cmd("mkdir -p " .. screenshotDir .. " && gr
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 -- and https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 
--- Example window rules that are useful
 
 local suppressMaximizeRule = hl.window_rule({
     -- Ignore maximize requests from all apps. You'll probably like this.
@@ -488,12 +489,3 @@ hl.window_rule({
 --     no_anim = true,
 -- })
 -- overlayLayerRule:set_enabled(false)
-
--- Hyprland-run windowrule
-hl.window_rule({
-    name  = "move-hyprland-run",
-    match = { class = "hyprland-run" },
-
-    move  = "20 monitor_h-120",
-    float = true,
-})
