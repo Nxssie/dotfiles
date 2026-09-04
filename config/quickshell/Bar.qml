@@ -28,25 +28,29 @@ PanelWindow {
         enabled: bar.caffeineActive
     }
 
-    // "" | "clock" | "battery" | "network" | "claude" | "bluetooth" | "media" | "audio"
+    // Single registry of popups: adding a chip with a popup means adding one
+    // entry here. `chip` is only set for popups that drop from their chip
+    // (right side); center popups anchor themselves under the clock.
+    readonly property var popups: ({
+        clock:     { popup: clockPopup },
+        media:     { popup: mediaPopup },
+        audio:     { popup: audioPopup,       chip: audioChip },
+        battery:   { popup: batteryPopup,     chip: batteryChip },
+        network:   { popup: networkPopup,     chip: networkChip },
+        claude:    { popup: claudeUsagePopup, chip: claudeChip },
+        bluetooth: { popup: bluetoothPopup,   chip: bluetoothChip },
+    })
+
     property string activePopup: ""
     function togglePopup(name) {
         activePopup = (activePopup === name) ? "" : name
-        audioPopup.visible = activePopup === "audio"
-        clockPopup.visible = activePopup === "clock"
-        batteryPopup.visible = activePopup === "battery"
-        networkPopup.visible = activePopup === "network"
-        claudeUsagePopup.visible = activePopup === "claude"
-        bluetoothPopup.visible = activePopup === "bluetooth"
-        mediaPopup.visible = activePopup === "media"
-
-        // Right-side popups drop from the chip that opened them, not a fixed
-        // corner — recompute against the actual chip each time one opens.
-        if (audioPopup.visible) audioPopup.anchorRect = bar.itemRect(audioChip)
-        if (batteryPopup.visible) batteryPopup.anchorRect = bar.itemRect(batteryChip)
-        if (networkPopup.visible) networkPopup.anchorRect = bar.itemRect(networkChip)
-        if (claudeUsagePopup.visible) claudeUsagePopup.anchorRect = bar.itemRect(claudeChip)
-        if (bluetoothPopup.visible) bluetoothPopup.anchorRect = bar.itemRect(bluetoothChip)
+        for (const key in popups) {
+            const entry = popups[key]
+            entry.popup.visible = activePopup === key
+            // Recompute against the actual chip each time one opens.
+            if (entry.popup.visible && entry.chip)
+                entry.popup.anchorRect = bar.itemRect(entry.chip)
+        }
     }
 
     ClockPopup {
