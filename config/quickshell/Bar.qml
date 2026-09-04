@@ -146,7 +146,10 @@ PanelWindow {
     Item {
         id: centerCluster
         anchors.centerIn: parent
-        width: 260
+        // Wide enough that the hover area always covers both chip rows (the
+        // clock stays centered, so the wider row decides the half-width) —
+        // otherwise mousing toward an edge chip drops the hover that reveals it.
+        width: clockText.implicitWidth + 2 * (14 + Math.max(leftChips.implicitWidth, rightChips.implicitWidth) + 20)
         height: bar.implicitHeight
 
         HoverHandler {
@@ -174,6 +177,7 @@ PanelWindow {
         // a hidden chip collapses and the visible ones pack toward the clock,
         // so no ghost gap is left when e.g. caffeine is inactive.
         RowLayout {
+            id: leftChips
             anchors.right: clockText.left
             anchors.rightMargin: 14
             anchors.verticalCenter: parent.verticalCenter
@@ -195,12 +199,21 @@ PanelWindow {
         // Mirror of the left-side layout: chips right of the clock pack toward
         // it and collapse when hidden, so new center widgets slot in here.
         RowLayout {
+            id: rightChips
             anchors.left: clockText.right
             anchors.leftMargin: 14
             anchors.verticalCenter: parent.verticalCenter
             spacing: 14
 
             ThemeToggle {
+                hovered: centerHover.hovered
+            }
+
+            MicChip {
+                hovered: centerHover.hovered
+            }
+
+            ScreenshotChip {
                 hovered: centerHover.hovered
             }
         }
