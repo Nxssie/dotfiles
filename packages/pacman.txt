@@ -5,6 +5,7 @@ bitwarden
 bluez
 bluez-utils
 breeze
+cliphist
 dolphin
 efibootmgr
 fish

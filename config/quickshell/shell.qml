@@ -14,4 +14,5 @@ ShellRoot {
     Launcher {}
     BindingsHelp {}
     PowerMenu {}
+    ClipboardHistory {}
 }

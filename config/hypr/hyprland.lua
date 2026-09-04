@@ -65,6 +65,9 @@ hl.on("hyprland.start", function ()
   -- graphical-session.target on this system refuses manual start (only PAM/login
   -- manager may start it), so start the units directly instead of via the target
   hl.exec_cmd("systemctl --user start quickshell.service awww-daemon.service hypridle.service")
+  -- clipboard history watchers (text + images) feeding cliphist
+  hl.exec_cmd("wl-paste --type text --watch cliphist store")
+  hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)
 
 
@@ -315,6 +318,7 @@ hl.bind(mainMod .. " + End",  hl.dsp.window.alter_zorder({ mode = "bottom" }),  
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu), { desc = "Abrir menú" })
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("qs ipc call launcher toggle"), { desc = "Abrir launcher de apps" })
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("qs ipc call bindings toggle"), { desc = "Mostrar esta ayuda de atajos" })
+hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("qs ipc call clipboard toggle"), { desc = "Historial del portapapeles" })
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { desc = "Alternar modo pseudo-tiling" })
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), { desc = "Maximizar ventana (ocupa todo el espacio, no es fullscreen real; ver SUPER+SHIFT+F)" })
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }), { desc = "Pantalla completa real (oculta barras/gaps)" })
