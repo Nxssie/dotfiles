@@ -7,3 +7,7 @@ config/quickshell/theme_state.json
 # Editor/OS noise
 *.swp
 .DS_Store
+
+# Symlinks installed into ~/.config/fish by harnxss (shell/ is their source of truth)
+config/fish/conf.d/ssh-agent.fish
+config/fish/functions/ssh-unlock.fish
