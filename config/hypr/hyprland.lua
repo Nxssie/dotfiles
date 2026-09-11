@@ -499,10 +499,35 @@ hl.window_rule({
     no_focus = true,
 })
 
--- Layer rules also return a handle.
--- local overlayLayerRule = hl.layer_rule({
---     name  = "no-anim-overlay",
---     match = { namespace = "^my-overlay$" },
---     no_anim = true,
--- })
--- overlayLayerRule:set_enabled(false)
+-- Dialogs and utility windows float centered instead of splitting the tiling tree:
+-- file choosers, Bitwarden, portal prompts, polkit and the audio/bluetooth tools
+hl.window_rule({
+    name  = "float-dialogs",
+    match = { title = "^(Open|Save|Open File|Save File|Save As|Select|Choose|Abrir|Guardar).*" },
+    float = true,
+    center = true,
+    size  = "60% 70%",
+})
+hl.window_rule({
+    name  = "float-utilities",
+    match = { class = "^(Bitwarden|bitwarden|org\\.pulseaudio\\.pavucontrol|pavucontrol|blueman-manager|nm-connection-editor|org\\.kde\\.polkit-kde-authentication-agent-1|hyprpolkitagent|xdg-desktop-portal-gtk|xdg-desktop-portal-kde)$" },
+    float = true,
+    center = true,
+})
+hl.window_rule({
+    name  = "float-pip",
+    match = { title = "^(Picture-in-Picture|Picture in picture)$" },
+    float = true,
+    pin   = true,
+    size  = "480 270",
+})
+
+-- Blur the quickshell layers (bar, popups, launcher...) so translucent surfaces
+-- match the blur already enabled on windows; ignore_alpha keeps fully
+-- transparent regions (the gaps around cards) from being blurred
+hl.layer_rule({
+    name  = "blur-quickshell",
+    match = { namespace = "^quickshell:.*" },
+    blur = true,
+    ignore_alpha = 0.1,
+})
