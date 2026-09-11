@@ -7,8 +7,8 @@ Rectangle {
     id: root
     property bool hovered: false
 
-    width: icon.implicitWidth + 12
-    height: 18
+    implicitWidth: icon.implicitWidth + 12
+    implicitHeight: 18
     radius: 0
     color: Theme.muted
     opacity: root.hovered ? 0.7 : 0

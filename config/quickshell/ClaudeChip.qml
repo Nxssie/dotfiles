@@ -7,8 +7,8 @@ Rectangle {
     signal activated()
 
     visible: ClaudeUsage.hasData
-    width: row.implicitWidth + 12
-    height: 18
+    implicitWidth: row.implicitWidth + 12
+    implicitHeight: 18
     radius: 0
     color: Theme.muted
 

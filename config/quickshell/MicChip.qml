@@ -9,8 +9,8 @@ Rectangle {
     readonly property var mic: Audio.source
     readonly property bool muted: mic && mic.audio ? mic.audio.muted : false
 
-    width: icon.implicitWidth + 12
-    height: 18
+    implicitWidth: icon.implicitWidth + 12
+    implicitHeight: 18
     radius: 0
     color: root.muted ? Theme.red : Theme.muted
     opacity: root.muted ? 1 : (root.hovered ? 0.7 : 0)

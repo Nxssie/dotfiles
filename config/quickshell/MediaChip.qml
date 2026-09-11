@@ -4,8 +4,8 @@ Rectangle {
     id: root
     signal activated()
 
-    width: icon.implicitWidth + 12
-    height: 18
+    implicitWidth: icon.implicitWidth + 12
+    implicitHeight: 18
     radius: 0
     color: Theme.muted
     visible: Media.player !== null
