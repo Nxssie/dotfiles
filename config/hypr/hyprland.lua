@@ -445,10 +445,18 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play/pause" })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, desc = "Previous track" })
 
--- Screenshots (grim + slurp + swappy)
+-- Screenshots (grim + slurp + swappy). Both save to disk, copy to the clipboard and
+-- notify with a thumbnail; the region one quietly aborts if slurp is cancelled (Esc)
 local screenshotDir = "$HOME/Pictures/Screenshots"
-hl.bind("Print", hl.dsp.exec_cmd("mkdir -p " .. screenshotDir .. " && grim " .. screenshotDir .. "/$(date +%Y%m%d_%H%M%S).png"), { desc = "Captura de pantalla completa" })
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd("mkdir -p " .. screenshotDir .. " && grim -g \"$(slurp)\" - | swappy -f - -o " .. screenshotDir .. "/$(date +%Y%m%d_%H%M%S).png"), { desc = "Captura de región + anotar" })
+local function screenshot(cmd)
+    return "mkdir -p " .. screenshotDir
+        .. " && f=" .. screenshotDir .. "/$(date +%Y%m%d_%H%M%S).png"
+        .. " && " .. cmd
+        .. " && wl-copy < \"$f\""
+        .. " && notify-send -a Screenshot -i \"$f\" 'Screenshot copied to clipboard' \"$(basename \"$f\")\""
+end
+hl.bind("Print",         hl.dsp.exec_cmd(screenshot("grim \"$f\"")), { desc = "Full-screen screenshot (saves + copies)" })
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd(screenshot("g=$(slurp) && grim -g \"$g\" - | swappy -f - -o \"$f\" && [ -s \"$f\" ]")), { desc = "Region screenshot + annotate (saves + copies)" })
 
 
 --------------------------------
