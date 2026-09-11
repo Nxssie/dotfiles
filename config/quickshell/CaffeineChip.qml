@@ -3,15 +3,18 @@ import QtQuick.Layouts
 
 Rectangle {
     id: root
-    property bool active: false
+    property bool active: false   // manual: user toggled it on
+    property bool auto: false     // automatic: media playing / fullscreen window
     property bool hovered: false
     signal toggled()
 
-    width: row.implicitWidth + 12
-    height: 18
+    implicitWidth: row.implicitWidth + 12
+    implicitHeight: 18
     radius: 0
+    // Manual is loud (yellow); automatic stays quiet but visible so an
+    // inhibited screen is never a surprise
     color: root.active ? Theme.yellow : Theme.muted
-    opacity: root.active ? 1 : (root.hovered ? 0.7 : 0)
+    opacity: (root.active || root.auto) ? 1 : (root.hovered ? 0.7 : 0)
     visible: opacity > 0
     Behavior on opacity { NumberAnimation { duration: 120 } }
 
@@ -27,7 +30,7 @@ Rectangle {
             color: root.active ? Theme.bg : Theme.fg
         }
         Text {
-            text: root.active ? "ON" : "OFF"
+            text: root.active ? "ON" : (root.auto ? "AUTO" : "OFF")
             color: root.active ? Theme.bg : Theme.fg
             font.family: "monospace"
             font.pixelSize: 10

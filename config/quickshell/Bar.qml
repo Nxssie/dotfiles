@@ -21,11 +21,32 @@ PanelWindow {
     WlrLayershell.namespace: "quickshell:bar"
     exclusiveZone: implicitHeight
 
-    // keeps the screen awake while caffeineActive is true
+    // Keeps the screen awake (pauses hypridle's whole dim/lock/suspend chain)
+    // while caffeine is on manually, or automatically while something is playing
+    // or a window is fullscreen (video, presentation...). Browsers only request
+    // an inhibitor for <video> themselves, so this covers the rest.
     property bool caffeineActive: false
+    // ToplevelManager.toplevels.values isn't a notifiable binding, so recompute on
+    // the Hyprland events that can change fullscreen state
+    property bool anyFullscreen: false
+    function refreshFullscreen() {
+        anyFullscreen = ToplevelManager.toplevels.values.some(t => t.fullscreen)
+    }
+    Connections {
+        target: Hyprland
+        function onRawEvent(event) {
+            switch (event.name) {
+            case "fullscreen": case "closewindow": case "workspace": case "activewindow":
+                fullscreenDebounce.restart()
+            }
+        }
+    }
+    // Toplevel state updates a tick after the event
+    Timer { id: fullscreenDebounce; interval: 50; onTriggered: bar.refreshFullscreen() }
+    readonly property bool autoInhibit: Media.playing || anyFullscreen
     IdleInhibitor {
         window: bar
-        enabled: bar.caffeineActive
+        enabled: bar.caffeineActive || bar.autoInhibit
     }
 
     // Single registry of popups: adding a chip with a popup means adding one
@@ -195,6 +216,7 @@ PanelWindow {
             CaffeineChip {
                 id: caffeineChip
                 active: bar.caffeineActive
+                auto: bar.autoInhibit
                 hovered: centerHover.hovered
                 onToggled: bar.caffeineActive = !bar.caffeineActive
             }
