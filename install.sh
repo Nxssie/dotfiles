@@ -58,6 +58,7 @@ link "$REPO/config/kdeglobals"  "$HOME/.config/kdeglobals"
 link "$REPO/config/starship"    "$HOME/.config/starship"
 link "$REPO/config/git"         "$HOME/.config/git"
 link "$REPO/config/xdg-desktop-portal" "$HOME/.config/xdg-desktop-portal"
+link "$REPO/config/environment.d" "$HOME/.config/environment.d"
 
 # --- Theming assets ----------------------------------------------------------
 link "$REPO/config/color-schemes"    "$HOME/.local/share/color-schemes"
