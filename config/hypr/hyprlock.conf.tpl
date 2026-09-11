@@ -18,7 +18,7 @@ input-field {
     font_color = __FONT__
     check_color = __CHECK__
     fail_color = __FAIL__
-    placeholder_text = <span foreground="__DIM__">Contraseña...</span>
+    placeholder_text = <span foreground="__DIM__">Password...</span>
     fade_on_empty = true
     position = 0, -40
     halign = center

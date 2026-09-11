@@ -266,14 +266,14 @@ hl.gesture({
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { desc = "Abrir terminal" })
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser), { desc = "Abrir navegador" })
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close(), { desc = "Cerrar ventana" })
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { desc = "Open terminal" })
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser), { desc = "Open browser" })
+local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close(), { desc = "Close window" })
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("qs ipc call powermenu toggle"), { desc = "Menú: bloquear/cerrar sesión/reiniciar/apagar/suspender" })
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || ~/.config/hypr/lock.sh"), { desc = "Bloquear pantalla" })
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager), { desc = "Abrir gestor de archivos" })
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { desc = "Alternar ventana flotante" })
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("qs ipc call powermenu toggle"), { desc = "Power menu: lock/log out/restart/shut down/suspend" })
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || ~/.config/hypr/lock.sh"), { desc = "Lock screen" })
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager), { desc = "Open file manager" })
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { desc = "Toggle floating window" })
 
 -- Restore tiling for every floating window on the current workspace in one shot
 -- (undoes stray floats / corner-snaps without having to alt-tab + SUPER+V one by one)
@@ -288,25 +288,25 @@ local function retileWorkspace()
     end
 end
 
-hl.bind(mainMod .. " + SHIFT + V", retileWorkspace, { desc = "Volver a modo tiling (destila todas las ventanas del workspace)" })
-hl.bind(mainMod .. " + T", hl.dsp.window.pin({ action = "toggle" }), { desc = "Fijar ventana flotante siempre visible (pin)" })
+hl.bind(mainMod .. " + SHIFT + V", retileWorkspace, { desc = "Back to tiling (re-tile every floating window on the workspace)" })
+hl.bind(mainMod .. " + T", hl.dsp.window.pin({ action = "toggle" }), { desc = "Pin floating window (always visible)" })
 
 -- Z-order for overlapping floating windows: which one draws on top of which
-hl.bind(mainMod .. " + Home", hl.dsp.window.bring_to_top(),                     { desc = "Traer ventana al frente (por encima de las demás)" })
-hl.bind(mainMod .. " + End",  hl.dsp.window.alter_zorder({ mode = "bottom" }),  { desc = "Enviar ventana al fondo (por debajo de las demás)" })
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("qs ipc call launcher toggle"), { desc = "Abrir launcher de apps" })
-hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("qs ipc call bindings toggle"), { desc = "Mostrar esta ayuda de atajos" })
-hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("qs ipc call clipboard toggle"), { desc = "Historial del portapapeles" })
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { desc = "Alternar modo pseudo-tiling" })
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), { desc = "Maximizar ventana (ocupa todo el espacio, no es fullscreen real; ver SUPER+SHIFT+F)" })
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }), { desc = "Pantalla completa real (oculta barras/gaps)" })
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { desc = "Alternar split del layout (solo dwindle)" })
+hl.bind(mainMod .. " + Home", hl.dsp.window.bring_to_top(),                     { desc = "Bring window to the front" })
+hl.bind(mainMod .. " + End",  hl.dsp.window.alter_zorder({ mode = "bottom" }),  { desc = "Send window to the back" })
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("qs ipc call launcher toggle"), { desc = "Open app launcher" })
+hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("qs ipc call bindings toggle"), { desc = "Show this keybinding help" })
+hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("qs ipc call clipboard toggle"), { desc = "Clipboard history" })
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { desc = "Toggle pseudo-tiling" })
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), { desc = "Maximize window (fills the space, not real fullscreen; see SUPER+SHIFT+F)" })
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }), { desc = "Real fullscreen (hides bar/gaps)" })
+hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { desc = "Toggle layout split (dwindle only)" })
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }),  { desc = "Enfocar ventana a la izquierda" })
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { desc = "Enfocar ventana a la derecha" })
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }),    { desc = "Enfocar ventana arriba" })
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }),  { desc = "Enfocar ventana abajo" })
+hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }),  { desc = "Focus window left" })
+hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { desc = "Focus window right" })
+hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }),    { desc = "Focus window up" })
+hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }),  { desc = "Focus window down" })
 
 -- Cycle through every window regardless of layout position (classic alt-tab).
 -- Useful when there's no neighbor in the direction you'd otherwise focus()
@@ -319,23 +319,23 @@ local function cycleAndRaise(forward)
     end
 end
 
-hl.bind(mainMod .. " + Tab",         cycleAndRaise(true),  { desc = "Ciclar a la siguiente ventana (alt-tab)" })
-hl.bind(mainMod .. " + SHIFT + Tab", cycleAndRaise(false), { desc = "Ciclar a la ventana anterior (alt-tab)" })
+hl.bind(mainMod .. " + Tab",         cycleAndRaise(true),  { desc = "Cycle to next window (alt-tab)" })
+hl.bind(mainMod .. " + SHIFT + Tab", cycleAndRaise(false), { desc = "Cycle to previous window (alt-tab)" })
 
 -- Reorder the tiling layout from the keyboard: relocates the active window in that
 -- direction (re-splitting the tree like a mouse drag would, finding it an available
 -- slot), and if the target holds a group it merges into it instead of a plain swap
 -- (mainMod+SHIFT+arrows is already resize, see below)
-hl.bind(mainMod .. " + ALT + left",  hl.dsp.window.move({ direction = "left",  group_aware = true }), { desc = "Mover/reordenar ventana hacia la izquierda (respeta grupos)" })
-hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ direction = "right", group_aware = true }), { desc = "Mover/reordenar ventana hacia la derecha (respeta grupos)" })
-hl.bind(mainMod .. " + ALT + up",    hl.dsp.window.move({ direction = "up",    group_aware = true }), { desc = "Mover/reordenar ventana hacia arriba (respeta grupos)" })
-hl.bind(mainMod .. " + ALT + down",  hl.dsp.window.move({ direction = "down",  group_aware = true }), { desc = "Mover/reordenar ventana hacia abajo (respeta grupos)" })
+hl.bind(mainMod .. " + ALT + left",  hl.dsp.window.move({ direction = "left",  group_aware = true }), { desc = "Move/reorder window left (group aware)" })
+hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ direction = "right", group_aware = true }), { desc = "Move/reorder window right (group aware)" })
+hl.bind(mainMod .. " + ALT + up",    hl.dsp.window.move({ direction = "up",    group_aware = true }), { desc = "Move/reorder window up (group aware)" })
+hl.bind(mainMod .. " + ALT + down",  hl.dsp.window.move({ direction = "down",  group_aware = true }), { desc = "Move/reorder window down (group aware)" })
 
 -- Window groups: stack windows into one tabbed slot, cycle tabs from the keyboard.
 -- A fully keyboard-driven alternative to hunting for the right tiling geometry.
-hl.bind(mainMod .. " + G",      hl.dsp.group.toggle(), { desc = "Agrupar ventana en pestañas (o desagrupar)" })
-hl.bind(mainMod .. " + comma",  hl.dsp.group.prev(),   { desc = "Pestaña anterior del grupo" })
-hl.bind(mainMod .. " + period", hl.dsp.group.next(),   { desc = "Pestaña siguiente del grupo" })
+hl.bind(mainMod .. " + G",      hl.dsp.group.toggle(), { desc = "Group window into tabs (or ungroup)" })
+hl.bind(mainMod .. " + comma",  hl.dsp.group.prev(),   { desc = "Previous tab in group" })
+hl.bind(mainMod .. " + period", hl.dsp.group.next(),   { desc = "Next tab in group" })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -346,33 +346,33 @@ for i = 1, 10 do
 end
 
 -- Special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"),         { desc = "Mostrar/ocultar el scratchpad" })
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { desc = "Mover ventana al scratchpad" })
+hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"),         { desc = "Show/hide scratchpad" })
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { desc = "Move window to scratchpad" })
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { desc = "Siguiente workspace (scroll)" })
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { desc = "Workspace anterior (scroll)" })
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { desc = "Next workspace (scroll)" })
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { desc = "Previous workspace (scroll)" })
 
 -- Same, from the keyboard: cycle through existing workspaces without knowing their number
-hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }), { desc = "Siguiente workspace" })
-hl.bind(mainMod .. " + CTRL + left",  hl.dsp.focus({ workspace = "e-1" }), { desc = "Workspace anterior" })
-hl.bind(mainMod .. " + CTRL + SHIFT + right", hl.dsp.window.move({ workspace = "e+1" }), { desc = "Mover ventana al siguiente workspace" })
-hl.bind(mainMod .. " + CTRL + SHIFT + left",  hl.dsp.window.move({ workspace = "e-1" }), { desc = "Mover ventana al workspace anterior" })
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }), { desc = "Next workspace" })
+hl.bind(mainMod .. " + CTRL + left",  hl.dsp.focus({ workspace = "e-1" }), { desc = "Previous workspace" })
+hl.bind(mainMod .. " + CTRL + SHIFT + right", hl.dsp.window.move({ workspace = "e+1" }), { desc = "Move window to next workspace" })
+hl.bind(mainMod .. " + CTRL + SHIFT + left",  hl.dsp.window.move({ workspace = "e-1" }), { desc = "Move window to previous workspace" })
 
 -- Declutter: jump to / send a window to the first empty workspace instead of hunting for a free number
-hl.bind(mainMod .. " + N",         hl.dsp.focus({ workspace = "empty" }),       { desc = "Ir al primer workspace vacío" })
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.window.move({ workspace = "empty" }), { desc = "Mover ventana al primer workspace vacío (hacerle hueco)" })
+hl.bind(mainMod .. " + N",         hl.dsp.focus({ workspace = "empty" }),       { desc = "Go to first empty workspace" })
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.window.move({ workspace = "empty" }), { desc = "Move window to first empty workspace" })
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, desc = "Mover ventana arrastrando" })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "Redimensionar ventana arrastrando" })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, desc = "Move window by dragging" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "Resize window by dragging" })
 
 -- Resize the active window with the keyboard (works on floating and tiled windows)
 local resizeStep = 30
-hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.resize({ x = -resizeStep, y = 0, relative = true }), { repeating = true, desc = "Reducir ancho de ventana" })
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = resizeStep,  y = 0, relative = true }), { repeating = true, desc = "Aumentar ancho de ventana" })
-hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.resize({ x = 0, y = -resizeStep, relative = true }), { repeating = true, desc = "Reducir alto de ventana" })
-hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.resize({ x = 0, y = resizeStep,  relative = true }), { repeating = true, desc = "Aumentar alto de ventana" })
+hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.resize({ x = -resizeStep, y = 0, relative = true }), { repeating = true, desc = "Shrink window width" })
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = resizeStep,  y = 0, relative = true }), { repeating = true, desc = "Grow window width" })
+hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.resize({ x = 0, y = -resizeStep, relative = true }), { repeating = true, desc = "Shrink window height" })
+hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.resize({ x = 0, y = resizeStep,  relative = true }), { repeating = true, desc = "Grow window height" })
 
 -- Snap the active window to a screen corner as a small floating window
 -- (dwindle's pseudotile just centers a shrunk window inside its slot, no corner anchor exists there,
@@ -425,25 +425,25 @@ local function snapToCorner(hAlign, vAlign)
     end
 end
 
-hl.bind(mainMod .. " + CTRL + 1", snapToCorner("left",  "bottom"), { desc = "Anclar ventana pequeña: esquina inferior izquierda" })
-hl.bind(mainMod .. " + CTRL + 2", snapToCorner("right", "bottom"), { desc = "Anclar ventana pequeña: esquina inferior derecha" })
-hl.bind(mainMod .. " + CTRL + 3", snapToCorner("left",  "top"),    { desc = "Anclar ventana pequeña: esquina superior izquierda" })
-hl.bind(mainMod .. " + CTRL + 4", snapToCorner("right", "top"),    { desc = "Anclar ventana pequeña: esquina superior derecha" })
-hl.bind(mainMod .. " + CTRL + 5", hl.dsp.window.center(), { desc = "Centrar ventana flotante" })
+hl.bind(mainMod .. " + CTRL + 1", snapToCorner("left",  "bottom"), { desc = "Snap small window: bottom-left corner" })
+hl.bind(mainMod .. " + CTRL + 2", snapToCorner("right", "bottom"), { desc = "Snap small window: bottom-right corner" })
+hl.bind(mainMod .. " + CTRL + 3", snapToCorner("left",  "top"),    { desc = "Snap small window: top-left corner" })
+hl.bind(mainMod .. " + CTRL + 4", snapToCorner("right", "top"),    { desc = "Snap small window: top-right corner" })
+hl.bind(mainMod .. " + CTRL + 5", hl.dsp.window.center(), { desc = "Center floating window" })
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, desc = "Subir volumen" })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true, desc = "Bajar volumen" })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true, desc = "Silenciar audio" })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true, desc = "Silenciar micrófono" })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ && qs ipc call osd brightness"),                  { locked = true, repeating = true, desc = "Subir brillo de pantalla" })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && qs ipc call osd brightness"),                  { locked = true, repeating = true, desc = "Bajar brillo de pantalla" })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, desc = "Volume up" })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true, desc = "Volume down" })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true, desc = "Mute audio" })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true, desc = "Mute microphone" })
+hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ && qs ipc call osd brightness"),                  { locked = true, repeating = true, desc = "Brightness up" })
+hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && qs ipc call osd brightness"),                  { locked = true, repeating = true, desc = "Brightness down" })
 
 -- Requires playerctl
-hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true, desc = "Siguiente canción" })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Reproducir/pausar" })
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Reproducir/pausar" })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, desc = "Canción anterior" })
+hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true, desc = "Next track" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play/pause" })
+hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play/pause" })
+hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, desc = "Previous track" })
 
 -- Screenshots (grim + slurp + swappy)
 local screenshotDir = "$HOME/Pictures/Screenshots"
