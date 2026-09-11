@@ -115,23 +115,28 @@ PanelWindow {
                 width: wsLabel.implicitWidth + 8
                 height: bar.implicitHeight
 
+                // A window on this workspace demands attention (xdg-activation request
+                // while unfocused). Highlighted in red until the workspace gets focus.
+                readonly property bool urgent: !modelData.focused
+                    && modelData.toplevels.values.some(t => t.urgent)
+
                 Text {
                     id: wsLabel
                     anchors.centerIn: parent
                     text: modelData.name
-                    color: modelData.focused ? Theme.accent : Theme.fgDim
+                    color: modelData.focused ? Theme.accent : (urgent ? Theme.red : Theme.fgDim)
                     font.family: "monospace"
                     font.pixelSize: 12
-                    font.bold: modelData.focused
+                    font.bold: modelData.focused || urgent
                 }
 
                 Rectangle {
-                    visible: modelData.focused
+                    visible: modelData.focused || urgent
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     width: wsLabel.implicitWidth
                     height: 2
-                    color: Theme.accent
+                    color: urgent ? Theme.red : Theme.accent
                 }
 
                 MouseArea {
