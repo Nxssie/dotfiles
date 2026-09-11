@@ -1,5 +1,5 @@
 [Unit]
-Description=Quickshell (bar, power menu, launcher, clipboard, bindings help)
+Description=Quickshell (bar, power menu, launcher, clipboard, bindings help, notifications)
 PartOf=graphical-session.target
 After=graphical-session.target awww-daemon.service
 Wants=awww-daemon.service

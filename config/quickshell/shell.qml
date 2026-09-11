@@ -15,4 +15,5 @@ ShellRoot {
     BindingsHelp {}
     PowerMenu {}
     ClipboardHistory {}
+    Notifications {}
 }
