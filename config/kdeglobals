@@ -5,3 +5,6 @@ Name=Tokyo Night Dark
 [KDE]
 SingleClick=false
 widgetStyle=Breeze
+
+[Icons]
+Theme=breeze-dark

@@ -27,7 +27,10 @@ Singleton {
 
         // Propagates the mode to the freedesktop portal (org.freedesktop.appearance color-scheme),
         // which is what browsers/apps with "auto" theme detection query.
-        colorSchemeRunner.command = ["bash", "-c", "gsettings set org.gnome.desktop.interface color-scheme " + (dark ? "prefer-dark" : "prefer-light")]
+        var iconTheme = dark ? "breeze-dark" : "breeze"
+        colorSchemeRunner.command = ["bash", "-c",
+            "gsettings set org.gnome.desktop.interface color-scheme " + (dark ? "prefer-dark" : "prefer-light") +
+            " && gsettings set org.gnome.desktop.interface icon-theme " + iconTheme]
         colorSchemeRunner.running = true
 
         // Propagates the mode to Qt/KDE Frameworks apps (Dolphin, Kate...) by writing
@@ -39,6 +42,7 @@ Singleton {
         qtThemeRunner.command = ["bash", "-c",
             "kwriteconfig6 --file kdeglobals --group General --key ColorScheme " + kdeScheme +
             " && kwriteconfig6 --file kdeglobals --group General --key Name '" + kdeName + "'" +
+            " && kwriteconfig6 --file kdeglobals --group Icons --key Theme " + iconTheme +
             " && dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0"]
         qtThemeRunner.running = true
 

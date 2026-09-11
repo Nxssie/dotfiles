@@ -7,6 +7,11 @@ StartLimitIntervalSec=60
 StartLimitBurst=10
 
 [Service]
+# gtk3, not kde6: the KDE platform theme only resolves themed icon names
+# (dialog-information, folder...) when XDG_CURRENT_DESKTOP is KDE, under Hyprland it
+# silently falls back to hicolor. gtk3 reads the icon theme from gsettings, which
+# Theme.qml keeps in sync with kdeglobals.
+Environment=QT_QPA_PLATFORMTHEME=gtk3
 ExecStart=/usr/bin/qs -n
 Restart=always
 RestartSec=1
