@@ -16,4 +16,5 @@ ShellRoot {
     PowerMenu {}
     ClipboardHistory {}
     Notifications {}
+    Osd {}
 }
