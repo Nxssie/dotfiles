@@ -48,8 +48,9 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE")
   -- graphical-session.target on this system refuses manual start (only PAM/login
   -- manager may start it), so start the units directly instead of via the target
-  -- (cliphist-*.service are the wl-paste --watch clipboard history feeders)
-  hl.exec_cmd("systemctl --user start quickshell.service awww-daemon.service hypridle.service cliphist-text.service cliphist-image.service")
+  -- (cliphist-*.service are the wl-paste --watch clipboard history feeders;
+  -- hyprpolkitagent.service is the privilege prompt UI, without it polkit requests fail silently)
+  hl.exec_cmd("systemctl --user start quickshell.service awww-daemon.service hypridle.service cliphist-text.service cliphist-image.service hyprpolkitagent.service")
 end)
 
 

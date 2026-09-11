@@ -5,6 +5,7 @@ bitwarden
 bluez
 bluez-utils
 breeze
+brightnessctl
 cliphist
 dolphin
 efibootmgr
@@ -15,6 +16,7 @@ grim
 hypridle
 hyprland
 hyprlock
+hyprpolkitagent
 hyprshutdown
 intel-ucode
 iw
@@ -33,6 +35,7 @@ pipewire
 pipewire-audio
 pipewire-pulse
 plasma-integration
+playerctl
 quickshell
 sddm
 slurp
@@ -44,5 +47,7 @@ ttf-liberation
 ttf-nerd-fonts-symbols
 upower
 wireplumber
+xdg-desktop-portal-gtk
+xdg-desktop-portal-hyprland
 xdg-user-dirs
 zed

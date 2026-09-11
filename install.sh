@@ -57,6 +57,7 @@ link "$REPO/config/zed"         "$HOME/.config/zed"
 link "$REPO/config/kdeglobals"  "$HOME/.config/kdeglobals"
 link "$REPO/config/starship"    "$HOME/.config/starship"
 link "$REPO/config/git"         "$HOME/.config/git"
+link "$REPO/config/xdg-desktop-portal" "$HOME/.config/xdg-desktop-portal"
 
 # --- Theming assets ----------------------------------------------------------
 link "$REPO/config/color-schemes"    "$HOME/.local/share/color-schemes"
@@ -91,11 +92,12 @@ if command -v systemctl >/dev/null 2>&1; then
     # of dying silently — see config/hypr/hyprland.lua's hyprland.start hook,
     # which imports the Wayland env into systemd --user and starts the target)
     session_units=(quickshell awww-daemon hypridle cliphist-text cliphist-image)
+    # hyprpolkitagent ships its own unit in /usr/lib/systemd/user, so no symlink for it
     for unit in "${session_units[@]}"; do
         ln -sf "$REPO/config/systemd/user/$unit.service" "$HOME/.config/systemd/user/$unit.service"
     done
     systemctl --user daemon-reload
-    systemctl --user enable "${session_units[@]/%/.service}" 2>/dev/null \
+    systemctl --user enable "${session_units[@]/%/.service}" hyprpolkitagent.service 2>/dev/null \
         || warn "could not enable Hyprland session units (${session_units[*]})"
 fi
 
