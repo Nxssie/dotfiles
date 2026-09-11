@@ -154,6 +154,14 @@ hl.config({
     animations = {
         enabled = true,
     },
+
+    -- Render XWayland buffers 1:1 instead of rescaling by the monitor scale — with
+    -- fractional scaling (1.5) the compositor upscale makes X11 apps (Java/Compose,
+    -- e.g. Wren) look pixelated. Apps that scale themselves (Wren does at runtime)
+    -- stay crisp; the rest may look smaller but sharp.
+    xwayland = {
+        force_zero_scaling = true,
+    },
 })
 
 -- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
