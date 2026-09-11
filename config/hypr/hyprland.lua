@@ -7,11 +7,19 @@
 ------------------
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
+-- Laptop panel: 1080p at 1.5x. Anything plugged in goes to its right at native
+-- resolution and 1x, so docking never mirrors or stacks the outputs.
+hl.monitor({
+    output   = "eDP-1",
+    mode     = "preferred",
+    position = "0x0",
+    scale    = 1.5,
+})
 hl.monitor({
     output   = "",
     mode     = "preferred",
-    position = "auto",
-    scale    = "auto",
+    position = "auto-right",
+    scale    = 1,
 })
 
 
