@@ -54,7 +54,6 @@ link "$REPO/config/quickshell"  "$HOME/.config/quickshell"
 link "$REPO/config/fish"        "$HOME/.config/fish"
 link "$REPO/config/ghostty"     "$HOME/.config/ghostty"
 link "$REPO/config/zed"         "$HOME/.config/zed"
-link "$REPO/config/kdeglobals"  "$HOME/.config/kdeglobals"
 link "$REPO/config/starship"    "$HOME/.config/starship"
 link "$REPO/config/git"         "$HOME/.config/git"
 link "$REPO/config/xdg-desktop-portal" "$HOME/.config/xdg-desktop-portal"
@@ -106,6 +105,17 @@ fi
 
 chmod +x "$REPO/config/hypr/lock.sh"
 
+# --- Plasma ------------------------------------------------------------------
+# kdeglobals is deliberately NOT symlinked: Plasma rewrites it constantly and it
+# would churn the repo. The seed below only matters for the Hyprland fallback
+# session; in Plasma, config/plasma/setup.sh applies the color scheme.
+if [ ! -e "$HOME/.config/kdeglobals" ]; then
+    cp "$REPO/config/kdeglobals" "$HOME/.config/kdeglobals"
+fi
+# Plasmoids, launchers and ~/.local/bin helpers. The live part (panel,
+# shortcuts, power...) needs a running Plasma session, see the manual steps.
+"$REPO/config/plasma/setup.sh" links
+
 # --- Manual steps ------------------------------------------------------------
 cat <<'EOF'
 
@@ -121,5 +131,7 @@ Done. Remaining one-time/manual steps on a fresh install:
   4. mise runtimes: git clone git@github.com:Nxssie/harnxss.git (config.toml
                     is symlinked from there), then: mise install
   5. Secrets:       edit ~/.config/fish/conf.d/secrets.fish, then: exec fish
+  6. Plasma:        from inside a Plasma session: config/plasma/setup.sh
+                    (panel, shortcuts, power, theme, tiling), then log out/in
 
 EOF
