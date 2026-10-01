@@ -3,7 +3,11 @@ if status is-interactive
 end
 
 if status is-login
-    if test -z "$WAYLAND_DISPLAY" -a "$XDG_VTNR" = 1
+    # Only autostart on a bare TTY login. SDDM's wayland-session script also runs
+    # $SHELL --login (to capture the env), so without the tty check this exec would
+    # replace it and launch Hyprland whatever session was picked in SDDM (and with
+    # that session's XDG_CURRENT_DESKTOP, e.g. KDE).
+    if test -z "$WAYLAND_DISPLAY" -a "$XDG_VTNR" = 1 -a "$XDG_SESSION_TYPE" = tty
         exec start-hyprland
     end
 end
