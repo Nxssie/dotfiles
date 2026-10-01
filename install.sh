@@ -99,6 +99,9 @@ if command -v systemctl >/dev/null 2>&1; then
     for unit in "${session_units[@]}"; do
         ln -sf "$REPO/config/systemd/user/$unit.service" "$HOME/.config/systemd/user/$unit.service"
     done
+    # Ghostty's own unit races systemd's notify-reload check; see the drop-in for details
+    link "$REPO/config/systemd/user/app-com.mitchellh.ghostty.service.d" \
+         "$HOME/.config/systemd/user/app-com.mitchellh.ghostty.service.d"
     systemctl --user daemon-reload
     systemctl --user disable "${session_units[@]/%/.service}" hyprpolkitagent.service 2>/dev/null || true
 fi
