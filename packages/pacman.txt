@@ -21,6 +21,7 @@ hyprshutdown
 intel-ucode
 iw
 iwd
+kdialog
 limine
 linux
 linux-firmware
