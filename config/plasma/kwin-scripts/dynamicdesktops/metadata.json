@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Id": "dynamicdesktops",
+        "Name": "Dynamic Desktops",
+        "Description": "Workspaces exist only while needed: Meta+N creates workspace N on demand, empty trailing ones disappear",
+        "Icon": "preferences-desktop",
+        "Authors": [{ "Name": "Nxssie" }],
+        "License": "MIT",
+        "Version": "1.0.0"
+    },
+    "X-Plasma-API": "declarativescript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}
