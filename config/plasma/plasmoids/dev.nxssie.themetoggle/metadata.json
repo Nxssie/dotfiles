@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "dev.nxssie.themetoggle",
+        "Name": "Theme Toggle",
+        "Description": "One-click switch between the Tokyo Night dark and cream-forest light themes (runs ~/.local/bin/theme-toggle)",
+        "Icon": "contrast",
+        "Category": "System Information",
+        "Authors": [{ "Name": "Nxssie" }],
+        "License": "MIT",
+        "Version": "1.0.0",
+        "EnabledByDefault": true
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "dev.nxssie.claudeusage",
+        "Name": "Claude Usage",
+        "Description": "Claude Code subscription usage (5h / 7d windows), read from ~/.cache/claude-usage.json",
+        "Icon": "dialog-information",
+        "Category": "System Information",
+        "Authors": [{ "Name": "Nxssie" }],
+        "License": "MIT",
+        "Version": "1.0.0",
+        "EnabledByDefault": true
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

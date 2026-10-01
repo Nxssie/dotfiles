@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "dev.nxssie.clock",
+        "Name": "Compact Clock",
+        "Description": "Date and time with a small month-grid popup (the stock digital clock's popup cannot be shrunk)",
+        "Icon": "clock",
+        "Category": "Date and Time",
+        "Authors": [{ "Name": "Nxssie" }],
+        "License": "MIT",
+        "Version": "1.0.0",
+        "EnabledByDefault": true
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
