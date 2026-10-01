@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# bindings-help — show the custom keybinding cheat sheet (replaces quickshell's
+# BindingsHelp). Reads the same manifest that setup.sh applies, so the help can
+# never drift from the real bindings.
+set -euo pipefail
+
+DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.."
+MANIFEST="${BINDINGS_MANIFEST:-$DIR/shortcuts.tsv}"
+[ -r "$MANIFEST" ] || { echo "manifest not found: $MANIFEST" >&2; exit 1; }
+
+# The tiling keys only exist while the Krohnkite script is enabled
+manifests=("$MANIFEST")
+if [ "$(kreadconfig6 --file kwinrc --group Plugins --key krohnkiteEnabled)" = true ] && [ -r "$DIR/shortcuts-tiling.tsv" ]; then
+    manifests+=("$DIR/shortcuts-tiling.tsv")
+fi
+
+text="$(awk -F' *\\| *' '
+    /^##/ { sub(/^## */, ""); printf "\n── %s ──\n", $0; next }
+    /^#/ || NF < 4 { next }
+    $3 == "none" || $4 == "-" { next }
+    { gsub(/;/, "  /  ", $3); printf "  %-34s %s\n", $3, $4 }
+' "${manifests[@]}")"
+
+if command -v kdialog >/dev/null 2>&1; then
+    tmp="$(mktemp)"
+    trap 'rm -f "$tmp"' EXIT
+    printf '%s\n' "$text" > "$tmp"
+    exec kdialog --title "Keybindings" --geometry 720x640 --textbox "$tmp"
+fi
+printf '%s\n' "$text"

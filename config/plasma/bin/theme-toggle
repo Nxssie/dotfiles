@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# theme-toggle — switch the whole Plasma session between the Tokyo Night dark
+# and the cream/forest light theme (replaces quickshell's Theme.toggle()).
+#
+#   theme-toggle          flip the current mode
+#   theme-toggle dark     force dark
+#   theme-toggle light    force light
+#
+# Stateless: the active color scheme *is* the state, so it can never drift from
+# what Plasma is actually showing.
+set -euo pipefail
+
+WALLPAPERS="$HOME/Pictures/Wallpapers"
+
+if [ "$#" -ge 1 ]; then
+    mode="$1"
+else
+    current="$(kreadconfig6 --file kdeglobals --group General --key ColorScheme)"
+    case "$current" in
+        *Light*) mode=dark ;;
+        *)       mode=light ;;
+    esac
+fi
+
+case "$mode" in
+    dark)  scheme=TokyoNightDark;  icons=breeze-dark; portal=prefer-dark;  wallpaper="$WALLPAPERS/dark.png" ;;
+    light) scheme=TokyoNightLight; icons=breeze;      portal=prefer-light; wallpaper="$WALLPAPERS/light.png" ;;
+    *) echo "usage: theme-toggle [dark|light]" >&2; exit 2 ;;
+esac
+
+# Qt/KDE apps, panel, window decorations
+plasma-apply-colorscheme "$scheme" >/dev/null
+/usr/lib/plasma-changeicons "$icons" >/dev/null 2>&1 || true
+
+# Desktop and lock screen wallpaper
+if [ -f "$wallpaper" ]; then
+    plasma-apply-wallpaperimage "$wallpaper" >/dev/null
+    kwriteconfig6 --file kscreenlockerrc \
+        --group Greeter --group Wallpaper --group org.kde.image --group General \
+        --key Image "file://$wallpaper"
+fi
+
+# GTK / libadwaita apps and the freedesktop appearance portal (browsers and
+# terminals with an "auto" theme follow this)
+gsettings set org.gnome.desktop.interface color-scheme "$portal" 2>/dev/null || true
+gsettings set org.gnome.desktop.interface icon-theme "$icons" 2>/dev/null || true

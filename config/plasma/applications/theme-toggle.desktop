@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Toggle dark/light theme
+Comment=Switch between the Tokyo Night dark and the cream/forest light theme
+Exec=sh -c "$HOME/.local/bin/theme-toggle"
+Icon=preferences-desktop-color
+Categories=Settings;
+X-KDE-GlobalAccel-CommandShortcut=true

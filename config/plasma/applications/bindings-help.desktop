@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Keybinding help
+Comment=Show the custom keybinding cheat sheet
+Exec=sh -c "$HOME/.local/bin/bindings-help"
+Icon=preferences-desktop-keyboard-shortcut
+Categories=Settings;
+X-KDE-GlobalAccel-CommandShortcut=true
