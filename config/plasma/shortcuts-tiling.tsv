@@ -1,0 +1,39 @@
+# Extra shortcuts applied only by `setup.sh tiling` (Krohnkite).
+# Same format as shortcuts.tsv. These take over the arrow-key window bindings that
+# KDE uses for quick-tiling, switching windows and moving them between screens.
+
+## Tiling (Krohnkite)
+kwin | KrohnkiteFocusLeft | Meta+Left | Focus window left
+kwin | KrohnkiteFocusRight | Meta+Right | Focus window right
+kwin | KrohnkiteFocusUp | Meta+Up | Focus window up
+kwin | KrohnkiteFocusDown | Meta+Down | Focus window down
+kwin | KrohnkiteShiftLeft | Meta+Alt+Left | Move window left
+kwin | KrohnkiteShiftRight | Meta+Alt+Right | Move window right
+kwin | KrohnkiteShiftUp | Meta+Alt+Up | Move window up
+kwin | KrohnkiteShiftDown | Meta+Alt+Down | Move window down
+kwin | KrohnkiteShrinkWidth | Meta+Shift+Left | Shrink window width
+kwin | KrohnkitegrowWidth | Meta+Shift+Right | Grow window width
+kwin | KrohnkiteShrinkHeight | Meta+Shift+Up | Shrink window height
+kwin | KrohnkiteGrowHeight | Meta+Shift+Down | Grow window height
+kwin | KrohnkiteToggleFloat | Meta+V | Toggle floating window
+kwin | KrohnkiteFloatAll | Meta+Shift+V | Toggle floating for all windows (back to tiling)
+kwin | KrohnkiteNextLayout | Meta+\ | Next layout (tree / monocle / floating / spiral)
+kwin | KrohnkiteRotate | Meta+R | Rotate layout
+kwin | KrohnkiteIncrease | none | -
+kwin | KrohnkiteDecrease | none | -
+kwin | KrohnkiteTileLayout | none | -
+kwin | KrohnkiteMonocleLayout | none | -
+
+## Stock KDE bindings the tiling keys replace
+kwin | Edit Tiles | none | -
+kwin | Window Quick Tile Bottom | none | -
+kwin | Window Quick Tile Left | none | -
+kwin | Window Quick Tile Right | none | -
+kwin | Window Quick Tile Top | none | -
+kwin | Switch Window Down | none | -
+kwin | Switch Window Left | none | -
+kwin | Switch Window Right | none | -
+kwin | Switch Window Up | none | -
+kwin | Window to Next Screen | none | -
+kwin | Window to Previous Screen | none | -
+kwin | Window On All Desktops | Meta+T | Pin window (visible on every desktop)

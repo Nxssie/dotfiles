@@ -1,0 +1,100 @@
+# Global shortcuts (ported from the Hyprland setup, SUPER == Meta).
+#
+# One source of truth: setup.sh writes these into kglobalshortcutsrc and
+# bin/bindings-help renders them as the cheat sheet.
+#
+#   component | action | keys | description
+#
+#   component  kglobalshortcutsrc group; nested groups use '/'
+#              (services/<id>.desktop -> [services][<id>.desktop]);
+#              "help" rows are only shown in the cheat sheet, never applied
+#   keys       ';' separates alternatives; 'none' clears a binding
+#              (cleared rows are not listed in the help)
+
+## Apps
+services/com.mitchellh.ghostty.desktop | _launch | Meta+Q | Open terminal
+services/helium.desktop | _launch | Meta+B | Open browser
+services/org.kde.dolphin.desktop | _launch | Meta+E | Open file manager
+services/org.kde.krunner.desktop | _launch | Meta+Space;Alt+Space;Alt+F2 | Open app launcher (KRunner)
+plasmashell | show-on-mouse-pos | Meta+Ctrl+V | Clipboard history
+services/bindings-help.desktop | _launch | Meta+K | Show this keybinding help
+services/theme-toggle.desktop | _launch | Meta+Shift+T | Toggle dark/light theme
+
+## Session
+ksmserver | Lock Session | Screensaver;Meta+L | Lock screen
+ksmserver | Log Out | Ctrl+Alt+Del;Meta+M | Power menu: log out / restart / shut down
+
+## Screenshots
+services/org.kde.spectacle.desktop | FullScreenScreenShot | Print | Full-screen screenshot (saves + copies)
+services/org.kde.spectacle.desktop | RectangularRegionScreenShot | Shift+Print | Region screenshot (saves + copies)
+services/org.kde.spectacle.desktop | _launch | Meta+Print | Open Spectacle
+
+## Windows
+kwin | Window Close | Alt+F4;Meta+C | Close window
+kwin | Window Maximize | Meta+PgUp;Meta+F | Maximize window
+kwin | Window Fullscreen | Meta+Shift+F | Real fullscreen
+kwin | Window Raise | Meta+Home | Bring window to the front
+kwin | Window Lower | Meta+End | Send window to the back
+kwin | Walk Through Windows | Alt+Tab;Meta+Tab | Cycle to next window
+kwin | Walk Through Windows (Reverse) | Alt+Shift+Tab;Meta+Shift+Tab | Cycle to previous window
+kwin | Window Move Center | Meta+Ctrl+5 | Center window
+kwin | Window Quick Tile Bottom Left | Meta+Ctrl+1 | Quarter-tile: bottom-left
+kwin | Window Quick Tile Bottom Right | Meta+Ctrl+2 | Quarter-tile: bottom-right
+kwin | Window Quick Tile Top Left | Meta+Ctrl+3 | Quarter-tile: top-left
+kwin | Window Quick Tile Top Right | Meta+Ctrl+4 | Quarter-tile: top-right
+
+## Window management (KDE defaults)
+kwin | Edit Tiles | Meta+T | Edit tiles (KDE tile editor)
+kwin | Window Quick Tile Left | Meta+Left | Quick-tile window to the left half
+kwin | Window Quick Tile Right | Meta+Right | Quick-tile window to the right half
+kwin | Window Quick Tile Top | Meta+Up | Quick-tile window to the top half
+kwin | Window Quick Tile Bottom | Meta+Down | Quick-tile window to the bottom half
+kwin | Switch Window Left | Meta+Alt+Left | Switch to the window on the left
+kwin | Switch Window Right | Meta+Alt+Right | Switch to the window on the right
+kwin | Switch Window Up | Meta+Alt+Up | Switch to the window above
+kwin | Switch Window Down | Meta+Alt+Down | Switch to the window below
+kwin | Window to Next Screen | Meta+Shift+Right | Move window to the next screen
+kwin | Window to Previous Screen | Meta+Shift+Left | Move window to the previous screen
+kwin | Window On All Desktops | none | -
+
+## Workspaces (dynamic: created on demand, empty ones vanish; see kwin-scripts/dynamicdesktops)
+help | - | Meta+1 … Meta+0 | Go to workspace 1…10 (created if missing)
+help | - | Meta+Shift+1 … Meta+Shift+0 | Move window to workspace 1…10 (created if missing)
+kwin | Switch to Desktop 1 | Ctrl+F1;Meta+F1 | -
+kwin | Switch to Desktop 2 | Ctrl+F2;Meta+F2 | -
+kwin | Switch to Desktop 3 | Ctrl+F3;Meta+F3 | -
+kwin | Switch to Desktop 4 | Ctrl+F4;Meta+F4 | -
+kwin | Switch to Desktop 5 | none | -
+kwin | Switch to Desktop 6 | none | -
+kwin | Switch to Desktop 7 | none | -
+kwin | Switch to Desktop 8 | none | -
+kwin | Switch to Desktop 9 | none | -
+kwin | Switch to Desktop 10 | none | -
+kwin | Window to Desktop 1 | none | -
+kwin | Window to Desktop 2 | none | -
+kwin | Window to Desktop 3 | none | -
+kwin | Window to Desktop 4 | none | -
+kwin | Window to Desktop 5 | none | -
+kwin | Window to Desktop 6 | none | -
+kwin | Window to Desktop 7 | none | -
+kwin | Window to Desktop 8 | none | -
+kwin | Window to Desktop 9 | none | -
+kwin | Window to Desktop 10 | none | -
+kwin | Switch One Desktop to the Right | Meta+Ctrl+Right | Next workspace
+kwin | Switch One Desktop to the Left | Meta+Ctrl+Left | Previous workspace
+kwin | Window One Desktop to the Right | Meta+Ctrl+Shift+Right | Move window to next workspace
+kwin | Window One Desktop to the Left | Meta+Ctrl+Shift+Left | Move window to previous workspace
+
+## Plasma defaults that clashed with the bindings above
+kwin | view_actual_size | none | -
+plasmashell | manage activities | none | -
+plasmashell | activate task manager entry 1 | none | -
+plasmashell | activate task manager entry 2 | none | -
+plasmashell | activate task manager entry 3 | none | -
+plasmashell | activate task manager entry 4 | none | -
+plasmashell | activate task manager entry 5 | none | -
+plasmashell | activate task manager entry 6 | none | -
+plasmashell | activate task manager entry 7 | none | -
+plasmashell | activate task manager entry 8 | none | -
+plasmashell | activate task manager entry 9 | none | -
+org_kde_powerdevil | powerProfile | Battery | -
