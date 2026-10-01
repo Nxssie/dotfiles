@@ -91,15 +91,17 @@ if command -v systemctl >/dev/null 2>&1; then
         || warn "pipewire user units not available (install pipewire-pulse first)"
     # Hyprland session daemons (supervised so they auto-restart on crash instead
     # of dying silently — see config/hypr/hyprland.lua's hyprland.start hook,
-    # which imports the Wayland env into systemd --user and starts the target)
+    # which imports the Wayland env into systemd --user and starts the units).
+    # Deliberately NOT enabled: WantedBy=graphical-session.target would also start
+    # them under Plasma, where they clash (hypridle vs powerdevil, quickshell vs
+    # plasmashell notifications, hyprpolkitagent vs polkit-kde).
     session_units=(quickshell awww-daemon hypridle cliphist-text cliphist-image)
     # hyprpolkitagent ships its own unit in /usr/lib/systemd/user, so no symlink for it
     for unit in "${session_units[@]}"; do
         ln -sf "$REPO/config/systemd/user/$unit.service" "$HOME/.config/systemd/user/$unit.service"
     done
     systemctl --user daemon-reload
-    systemctl --user enable "${session_units[@]/%/.service}" hyprpolkitagent.service 2>/dev/null \
-        || warn "could not enable Hyprland session units (${session_units[*]})"
+    systemctl --user disable "${session_units[@]/%/.service}" hyprpolkitagent.service 2>/dev/null || true
 fi
 
 chmod +x "$REPO/config/hypr/lock.sh"
